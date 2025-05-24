@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Play, Square, Diamond, Parallelogram, StopCircle } from 'lucide-react';
+import { Play, Square, Diamond, RectangleHorizontal, StopCircle } from 'lucide-react';
 
 interface FlowNodePaletteProps {
   onAddNode: (type: 'start' | 'end' | 'input' | 'decision' | 'process', label: string) => void;
@@ -21,7 +20,7 @@ const nodeTypes = [
   {
     type: 'input' as const,
     label: 'User Input',
-    icon: Parallelogram,
+    icon: RectangleHorizontal,
     color: 'bg-blue-100 text-blue-700 border-blue-200',
     description: 'User provides data',
     examples: ['Enter Email', 'Enter Password', 'Select MFA Method']

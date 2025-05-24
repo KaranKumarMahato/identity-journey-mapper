@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Play, Square, Diamond, Parallelogram, Trash2, Edit3, ArrowRight } from 'lucide-react';
+import { Play, Square, Diamond, RectangleHorizontal, Trash2, Edit3, ArrowRight } from 'lucide-react';
 import { FlowNode } from './IdentityJourneyMapper';
 
 interface FlowCanvasProps {
@@ -18,7 +18,7 @@ interface FlowCanvasProps {
 const iconMap = {
   start: Play,
   end: Play,
-  input: Parallelogram,
+  input: RectangleHorizontal,
   decision: Diamond,
   process: Square
 };
