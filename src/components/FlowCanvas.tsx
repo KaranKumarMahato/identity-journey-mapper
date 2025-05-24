@@ -1,4 +1,3 @@
-
 import React, { forwardRef, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -162,7 +161,7 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                   <div className="flex items-center space-x-3 mb-3">
                     <div className="flex items-center space-x-2">
                       <span className="text-lg">{emojiMap[node.type]}</span>
-                      <IconComponent className="w-4 h-4 text-white" />
+                      <IconComponent className="w-4 h-4 text-gray-700" />
                     </div>
                     <Badge variant="outline" className="text-xs glass-card border-white/30">
                       {node.type}
@@ -175,12 +174,12 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                       onChange={(e) => setEditValue(e.target.value)}
                       onKeyDown={handleKeyPress}
                       onBlur={saveEdit}
-                      className="h-8 text-sm bg-white/20 border-white/30"
+                      className="h-8 text-sm bg-white/20 border-white/30 text-black"
                       autoFocus
                     />
                   ) : (
                     <div
-                      className="text-sm font-medium cursor-text text-white min-h-[20px]"
+                      className="text-sm font-medium cursor-text text-black min-h-[20px]"
                       onClick={() => startEditing(node)}
                     >
                       {node.label}
@@ -193,7 +192,7 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                         size="sm"
                         variant="ghost"
                         onClick={() => startEditing(node)}
-                        className="h-7 w-7 p-0 hover:bg-white/20 text-white"
+                        className="h-7 w-7 p-0 hover:bg-white/20 text-gray-700"
                       >
                         <Edit3 className="w-3 h-3" />
                       </Button>
@@ -201,7 +200,7 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                         size="sm"
                         variant="ghost"
                         onClick={() => onDeleteNode(node.id)}
-                        className="h-7 w-7 p-0 text-red-300 hover:text-red-100 hover:bg-red-500/20"
+                        className="h-7 w-7 p-0 text-red-600 hover:text-red-800 hover:bg-red-500/20"
                       >
                         <Trash2 className="w-3 h-3" />
                       </Button>
