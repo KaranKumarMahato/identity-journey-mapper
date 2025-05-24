@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Play, Square, Diamond, RectangleHorizontal, Trash2, Edit3, ArrowRight } from 'lucide-react';
+import { Play, Square, Diamond, RectangleHorizontal, Trash2, Edit3, ArrowRight, Sparkles } from 'lucide-react';
 import { FlowNode } from './IdentityJourneyMapper';
 
 interface FlowCanvasProps {
@@ -24,11 +24,19 @@ const iconMap = {
 };
 
 const colorMap = {
-  start: 'bg-green-100 text-green-700 border-green-200',
-  end: 'bg-red-100 text-red-700 border-red-200',
-  input: 'bg-blue-100 text-blue-700 border-blue-200',
-  decision: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-  process: 'bg-purple-100 text-purple-700 border-purple-200'
+  start: 'node-start',
+  end: 'node-end',
+  input: 'node-input',
+  decision: 'node-decision',
+  process: 'node-process'
+};
+
+const emojiMap = {
+  start: '🟢',
+  end: '🔴',
+  input: '🔵',
+  decision: '🔶',
+  process: '🟣'
 };
 
 const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
@@ -84,7 +92,7 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
     };
 
     return (
-      <Card className="h-[600px] relative overflow-hidden">
+      <Card className="h-[600px] relative overflow-hidden border-0 shadow-none">
         <div
           ref={ref}
           className="w-full h-full canvas-grid relative cursor-crosshair"
@@ -92,26 +100,45 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
           onMouseUp={handleMouseUp}
           onClick={() => onSelectNode(null)}
         >
-          {/* Overlay instructions when empty */}
+          {/* Enhanced overlay instructions when empty */}
           {nodes.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center space-y-4 p-8">
-                <div className="w-16 h-16 auth-gradient rounded-full mx-auto flex items-center justify-center mb-4">
-                  <ArrowRight className="w-8 h-8 text-white" />
+              <div className="text-center space-y-6 p-8 glass-card rounded-2xl max-w-md">
+                <div className="w-20 h-20 auth-gradient rounded-full mx-auto flex items-center justify-center mb-6 floating">
+                  <ArrowRight className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-700">Start Building Your Authentication Flow</h3>
-                <p className="text-gray-500 max-w-md">
-                  Add flowchart elements from the sidebar to design your B2B SaaS authentication journey.
-                  Perfect for QA testing, UI design, and development implementation.
-                </p>
-                <Badge variant="outline" className="mt-2">
-                  SSO • MFA • Social Login • Recovery
-                </Badge>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                    Start Building Your Authentication Flow
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    Drag and drop flowchart elements from the sidebar to design your B2B SaaS authentication journey.
+                    Perfect for QA testing, UI design, and development implementation.
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    <Badge variant="outline" className="glass-card">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      SSO
+                    </Badge>
+                    <Badge variant="outline" className="glass-card">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      MFA
+                    </Badge>
+                    <Badge variant="outline" className="glass-card">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      Social Login
+                    </Badge>
+                    <Badge variant="outline" className="glass-card">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      Recovery
+                    </Badge>
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Render nodes */}
+          {/* Enhanced rendered nodes */}
           {nodes.map((node) => {
             const IconComponent = iconMap[node.type];
             const isSelected = selectedNode === node.id;
@@ -120,8 +147,8 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
             return (
               <div
                 key={node.id}
-                className={`absolute flow-node ${colorMap[node.type]} ${
-                  isSelected ? 'ring-2 ring-blue-500 ring-offset-2' : ''
+                className={`absolute flow-node ${
+                  isSelected ? 'ring-4 ring-blue-400/50 ring-offset-2 pulse-glow' : ''
                 } ${draggedNode === node.id ? 'dragging' : ''}`}
                 style={{
                   left: node.x,
@@ -131,10 +158,13 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                 onMouseDown={(e) => handleMouseDown(e, node.id)}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="bg-white border-2 rounded-lg shadow-lg p-3 min-w-[120px] cursor-move">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <IconComponent className="w-4 h-4" />
-                    <Badge variant="outline" className="text-xs">
+                <div className="glass-card border-2 border-white/30 rounded-xl shadow-xl p-4 min-w-[140px] cursor-move backdrop-blur-md">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-lg">{emojiMap[node.type]}</span>
+                      <IconComponent className="w-4 h-4 text-white" />
+                    </div>
+                    <Badge variant="outline" className="text-xs glass-card border-white/30">
                       {node.type}
                     </Badge>
                   </div>
@@ -145,12 +175,12 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                       onChange={(e) => setEditValue(e.target.value)}
                       onKeyDown={handleKeyPress}
                       onBlur={saveEdit}
-                      className="h-8 text-sm"
+                      className="h-8 text-sm bg-white/20 border-white/30"
                       autoFocus
                     />
                   ) : (
                     <div
-                      className="text-sm font-medium cursor-text"
+                      className="text-sm font-medium cursor-text text-white min-h-[20px]"
                       onClick={() => startEditing(node)}
                     >
                       {node.label}
@@ -158,12 +188,12 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                   )}
                   
                   {isSelected && !isEditing && (
-                    <div className="flex items-center space-x-1 mt-2">
+                    <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-white/20">
                       <Button
                         size="sm"
                         variant="ghost"
                         onClick={() => startEditing(node)}
-                        className="h-6 w-6 p-0"
+                        className="h-7 w-7 p-0 hover:bg-white/20 text-white"
                       >
                         <Edit3 className="w-3 h-3" />
                       </Button>
@@ -171,7 +201,7 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
                         size="sm"
                         variant="ghost"
                         onClick={() => onDeleteNode(node.id)}
-                        className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
+                        className="h-7 w-7 p-0 text-red-300 hover:text-red-100 hover:bg-red-500/20"
                       >
                         <Trash2 className="w-3 h-3" />
                       </Button>
@@ -182,9 +212,13 @@ const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(
             );
           })}
           
-          {/* Grid info */}
-          <div className="absolute bottom-4 right-4 text-xs text-gray-400">
-            Grid: 20px • {nodes.length} nodes
+          {/* Enhanced grid info */}
+          <div className="absolute bottom-4 right-4 glass-card px-3 py-2 rounded-lg">
+            <div className="text-xs text-gray-600 flex items-center space-x-2">
+              <span>Grid: 20px</span>
+              <span>•</span>
+              <span>{nodes.length} nodes</span>
+            </div>
           </div>
         </div>
       </Card>
